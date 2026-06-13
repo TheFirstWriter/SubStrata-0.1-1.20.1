@@ -1,15 +1,16 @@
 package net.thefirstwriter.substrata;
 
 import com.mojang.logging.LogUtils;
-//import net.minecraft.client.Minecraft;
-//import net.minecraft.core.registries.Registries;
+//import net.thefirstwriter.substrata.worldgen.biome.SubSTerrablender;
+import net.thefirstwriter.substrata.worldgen.biome.surface.SubSSurfaceRules;
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.registries.Registries;
 //import net.minecraft.world.food.FoodProperties;
 //import net.minecraft.world.item.BlockItem;
 //import net.minecraft.world.item.CreativeModeTab;
 //import net.minecraft.world.item.CreativeModeTabs;
 //import net.minecraft.world.item.Item;
 //import net.minecraft.world.level.block.Block;
-//import net.minecraft.world.level.block.Blocks;
 //import net.minecraft.world.level.block.state.BlockBehaviour;
 //import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.api.distmarker.Dist;
@@ -27,6 +28,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 //import net.minecraftforge.registries.ForgeRegistries;
 //import net.minecraftforge.registries.RegistryObject;
 import org.slf4j.Logger;
+import terrablender.api.SurfaceRuleManager;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(SubStrata.MOD_ID)
@@ -45,8 +47,7 @@ public class SubStrata
         modEventBus.addListener(this::commonSetup);
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
-
-        // Register the item to a creative tab
+        //SubSTerrablender.registerBiomes();
         modEventBus.addListener(this::addCreative);
 
         // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
@@ -54,7 +55,9 @@ public class SubStrata
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-
+        event.enqueueWork(() -> {
+            SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, MOD_ID, SubSSurfaceRules.makeRules());
+        });
     }
 
     // Add the example block item to the building blocks tab
