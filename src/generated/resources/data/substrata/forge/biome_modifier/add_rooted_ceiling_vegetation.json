@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#substrata:is_rooted_caves",
+  "features": "substrata:rooted_ceiling_features_placed",
+  "step": "vegetal_decoration"
+}

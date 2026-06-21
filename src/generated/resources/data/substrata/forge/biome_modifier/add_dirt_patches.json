@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#substrata:is_rooted_caves",
+  "features": "substrata:dirt_patches_placed",
+  "step": "underground_ores"
+}
