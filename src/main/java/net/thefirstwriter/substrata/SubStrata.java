@@ -2,6 +2,9 @@ package net.thefirstwriter.substrata;
 
 import com.mojang.logging.LogUtils;
 //import net.thefirstwriter.substrata.worldgen.biome.SubSTerrablender;
+//import net.thefirstwriter.substrata.block.BlockRegistry;
+//import net.thefirstwriter.substrata.item.CreativeModTab;
+//import net.thefirstwriter.substrata.item.ItemRegistry;
 import net.thefirstwriter.substrata.worldgen.biome.surface.SubSSurfaceRules;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
@@ -29,6 +32,8 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 //import net.minecraftforge.registries.RegistryObject;
 import org.slf4j.Logger;
 import terrablender.api.SurfaceRuleManager;
+import static terrablender.api.SurfaceRuleManager.RuleStage.BEFORE_BEDROCK;
+
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(SubStrata.MOD_ID)
@@ -43,20 +48,24 @@ public class SubStrata
     {
         IEventBus modEventBus = context.getModEventBus();
 
-        // Register the commonSetup method for modloading
+        //CreativeModTab.register(modEventBus);
+
+        //ItemRegistry.register(modEventBus);
+        //BlockRegistry.register(modEventBus);
+
+
         modEventBus.addListener(this::commonSetup);
-        // Register ourselves for server and other game events we are interested in
+
         MinecraftForge.EVENT_BUS.register(this);
-        //SubSTerrablender.registerBiomes();
+
         modEventBus.addListener(this::addCreative);
 
-        // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
         context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
-            SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, MOD_ID, SubSSurfaceRules.makeRules());
+            SurfaceRuleManager.addToDefaultSurfaceRulesAtStage(SurfaceRuleManager.RuleCategory.OVERWORLD, BEFORE_BEDROCK,100, SubSSurfaceRules.makeRules());
         });
     }
 

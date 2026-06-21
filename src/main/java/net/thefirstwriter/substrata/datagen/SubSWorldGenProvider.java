@@ -4,6 +4,7 @@ import net.thefirstwriter.substrata.SubStrata;
 import net.thefirstwriter.substrata.worldgen.SubSBiomeModifiers;
 import net.thefirstwriter.substrata.worldgen.SubSConfiguredFeatures;
 import net.thefirstwriter.substrata.worldgen.SubSPlacedFeatures;
+//import net.thefirstwriter.substrata.worldgen.SubSNoiseSettings;
 //import net.thefirstwriter.substrata.worldgen.biome.SubSCaveBiomes;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
@@ -20,6 +21,7 @@ public class SubSWorldGenProvider extends DatapackBuiltinEntriesProvider {
             .add(Registries.CONFIGURED_FEATURE, SubSConfiguredFeatures::bootstrap)
             .add(Registries.PLACED_FEATURE, SubSPlacedFeatures::bootstrap)
             .add(ForgeRegistries.Keys.BIOME_MODIFIERS, SubSBiomeModifiers::bootstrap);
+            //.add(Registries.NOISE_SETTINGS, SubSNoiseSettings::bootstrap);
             //.add(Registries.BIOME, SubSCaveBiomes::boostrap);
 
     public SubSWorldGenProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {

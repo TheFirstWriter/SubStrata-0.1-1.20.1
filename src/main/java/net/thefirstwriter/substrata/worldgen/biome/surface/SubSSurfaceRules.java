@@ -9,6 +9,7 @@ import net.minecraft.world.level.levelgen.VerticalAnchor;
 //import net.minecraft.world.level.levelgen.placement.CaveSurface;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.levelgen.placement.CaveSurface;
 import net.minecraftforge.fml.ModList;
 //import net.thefirstwriter.substrata.worldgen.biome.SubSCaveBiomes;
 
@@ -16,8 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SubSSurfaceRules {
-    //private static final SurfaceRules.RuleSource DIRT = makeStateRule(Blocks.DIRT);
-    //private static final SurfaceRules.RuleSource GRASS_BLOCK = makeStateRule(Blocks.GRASS_BLOCK);
+    private static final SurfaceRules.RuleSource DIRT = makeStateRule(Blocks.DIRT);
+    private static final SurfaceRules.RuleSource GRASS_BLOCK = makeStateRule(Blocks.GRASS_BLOCK);
     private static final SurfaceRules.RuleSource PACKED_MUD = makeStateRule(Blocks.PACKED_MUD);
     //private static final SurfaceRules.RuleSource ROOTED_DIRT = makeStateRule(Blocks.ROOTED_DIRT);
 
@@ -25,16 +26,19 @@ public class SubSSurfaceRules {
     public static SurfaceRules.RuleSource makeRules() {
         //SurfaceRules.ConditionSource isAtOrAboveWaterLevel = SurfaceRules.waterBlockCheck(-1, 0);
         //SurfaceRules.RuleSource grassSurface = SurfaceRules.sequence(SurfaceRules.ifTrue(isAtOrAboveWaterLevel, GRASS_BLOCK), DIRT);
-        //SurfaceRules.ConditionSource belowSurface = SurfaceRules.stoneDepthCheck(3,false, CaveSurface.FLOOR);
-        SurfaceRules.ConditionSource aboveStoneLayer = SurfaceRules.yStartCheck(VerticalAnchor.absolute(16),0);
+        SurfaceRules.ConditionSource aboveStoneLayer = SurfaceRules.yBlockCheck(VerticalAnchor.absolute(7),4);
+        SurfaceRules.ConditionSource abovePreliminarySurface = SurfaceRules.abovePreliminarySurface();
+        SurfaceRules.ConditionSource belowPreliminarySurface = SurfaceRules.not(abovePreliminarySurface);
+        SurfaceRules.ConditionSource belowSurface = SurfaceRules.not(SurfaceRules.stoneDepthCheck(0,true,0,CaveSurface.FLOOR));
 
         List<ResourceKey<Biome>> rootedCaves = buildRootedCavesList();
 
+        @ SuppressWarnings("unchecked")
         SurfaceRules.ConditionSource isRooted = SurfaceRules.isBiome(rootedCaves.toArray(new ResourceKey[0]));
 
         return SurfaceRules.sequence(
-                SurfaceRules.sequence(SurfaceRules.ifTrue(isRooted,
-                                SurfaceRules.ifTrue(aboveStoneLayer,PACKED_MUD)))
+                SurfaceRules.ifTrue(isRooted, SurfaceRules.sequence(SurfaceRules.ifTrue(belowSurface,SurfaceRules.ifTrue(aboveStoneLayer,PACKED_MUD)),
+                        SurfaceRules.ifTrue(belowPreliminarySurface,SurfaceRules.ifTrue(aboveStoneLayer, PACKED_MUD))))
         );
     }
     private static List<ResourceKey<Biome>> buildRootedCavesList() {
@@ -47,6 +51,8 @@ public class SubSSurfaceRules {
         biomes.add(Biomes.DARK_FOREST);
         biomes.add(Biomes.TAIGA);
         biomes.add(Biomes.PLAINS);
+        biomes.add(Biomes.MEADOW);
+        biomes.add(Biomes.CHERRY_GROVE);
         biomes.add(Biomes.SUNFLOWER_PLAINS);
         biomes.add(Biomes.OLD_GROWTH_BIRCH_FOREST);
         biomes.add(Biomes.OLD_GROWTH_PINE_TAIGA);
