@@ -64,9 +64,9 @@ public class SubStrata
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-        event.enqueueWork(() -> {
+        /*event.enqueueWork(() -> {
             SurfaceRuleManager.addToDefaultSurfaceRulesAtStage(SurfaceRuleManager.RuleCategory.OVERWORLD, BEFORE_BEDROCK,100, SubSSurfaceRules.makeRules());
-        });
+        });*/
     }
 
     // Add the example block item to the building blocks tab

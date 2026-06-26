@@ -24,32 +24,35 @@ public class SubSBiomeTagGenerator extends BiomeTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.@NotNull Provider pProvider) {
-        var tagBuilder = this.tag(SubsTags.Biomes.IS_ROOTED_CAVES);
-
-        // 1. Add Vanilla Biomes (Always Required)
-        tagBuilder.add(Biomes.FOREST);
-        tagBuilder.add(Biomes.FLOWER_FOREST);
-        tagBuilder.add(Biomes.BIRCH_FOREST);
-        tagBuilder.add(Biomes.DARK_FOREST);
-        tagBuilder.add(Biomes.TAIGA);
-        tagBuilder.add(Biomes.PLAINS);
-        tagBuilder.add(Biomes.MEADOW);
-        tagBuilder.add(Biomes.CHERRY_GROVE);
-        tagBuilder.add(Biomes.SUNFLOWER_PLAINS);
-        tagBuilder.add(Biomes.OLD_GROWTH_BIRCH_FOREST);
-        tagBuilder.add(Biomes.OLD_GROWTH_PINE_TAIGA);
-        tagBuilder.add(Biomes.OLD_GROWTH_SPRUCE_TAIGA);
+        var rootedCaves = this.tag(SubsTags.Biomes.IS_ROOTED_CAVES);
+        rootedCaves.add(Biomes.FOREST);rootedCaves.add(Biomes.FLOWER_FOREST);rootedCaves.add(Biomes.BIRCH_FOREST);
+        rootedCaves.add(Biomes.DARK_FOREST);rootedCaves.add(Biomes.TAIGA);rootedCaves.add(Biomes.PLAINS);
+        rootedCaves.add(Biomes.MEADOW);rootedCaves.add(Biomes.CHERRY_GROVE);rootedCaves.add(Biomes.SUNFLOWER_PLAINS);
+        rootedCaves.add(Biomes.OLD_GROWTH_BIRCH_FOREST);rootedCaves.add(Biomes.OLD_GROWTH_PINE_TAIGA);rootedCaves.add(Biomes.OLD_GROWTH_SPRUCE_TAIGA);
 
         // Terralith
-        addOptionalBiome(tagBuilder, "terralith", "alpine_grove");
-        addOptionalBiome(tagBuilder, "terralith", "birch_taiga");
-        addOptionalBiome(tagBuilder, "terralith", "lavender_forest");
-        addOptionalBiome(tagBuilder, "terralith", "moonlight_grove");
+        addOptionalBiome(rootedCaves, "terralith", "alpine_grove");addOptionalBiome(rootedCaves, "terralith", "birch_taiga");
+        addOptionalBiome(rootedCaves, "terralith", "lavender_forest");addOptionalBiome(rootedCaves, "terralith", "moonlight_grove");
 
         // Regions Unexplored
-        addOptionalBiome(tagBuilder, "regions_unexplored", "deciduous_forest");
-        addOptionalBiome(tagBuilder, "regions_unexplored", "maple_forest");
-        addOptionalBiome(tagBuilder, "regions_unexplored", "flower_fields");
+        addOptionalBiome(rootedCaves, "regions_unexplored", "deciduous_forest");addOptionalBiome(rootedCaves, "regions_unexplored", "maple_forest");
+        addOptionalBiome(rootedCaves, "regions_unexplored", "flower_fields");
+
+        var andesiteRocks = this.tag(SubsTags.Biomes.IS_ANDESITE_ROCKS);
+        andesiteRocks.add(Biomes.DARK_FOREST);andesiteRocks.add(Biomes.TAIGA);andesiteRocks.add(Biomes.MEADOW);
+        andesiteRocks.add(Biomes.OLD_GROWTH_PINE_TAIGA);andesiteRocks.add(Biomes.OLD_GROWTH_SPRUCE_TAIGA);
+        var calciteRocks = this.tag(SubsTags.Biomes.IS_CALCITE_ROCKS);
+        calciteRocks.add(Biomes.BIRCH_FOREST);calciteRocks.add(Biomes.OLD_GROWTH_BIRCH_FOREST);calciteRocks.add(Biomes.MEADOW);calciteRocks.add(Biomes.CHERRY_GROVE);
+        var dioriteRocks = this.tag(SubsTags.Biomes.IS_DIORITE_ROCKS);
+        dioriteRocks.add(Biomes.BIRCH_FOREST);dioriteRocks.add(Biomes.OLD_GROWTH_BIRCH_FOREST);dioriteRocks.add(Biomes.PLAINS);dioriteRocks.add(Biomes.SUNFLOWER_PLAINS);
+        var graniteRocks = this.tag(SubsTags.Biomes.IS_GRANITE_ROCKS);
+        graniteRocks.add(Biomes.FOREST);graniteRocks.add(Biomes.FLOWER_FOREST);graniteRocks.add(Biomes.PLAINS);graniteRocks.add(Biomes.SUNFLOWER_PLAINS);
+        var tuffRocks = this.tag(SubsTags.Biomes.IS_TUFF_ROCKS);
+        tuffRocks.add(Biomes.DARK_FOREST);tuffRocks.add(Biomes.CHERRY_GROVE);
+        var stoneRocks = this.tag(SubsTags.Biomes.IS_STONE_ROCKS);
+        stoneRocks.add(Biomes.FOREST);stoneRocks.add(Biomes.FLOWER_FOREST);stoneRocks.add(Biomes.BIRCH_FOREST);stoneRocks.add(Biomes.DARK_FOREST);
+        stoneRocks.add(Biomes.TAIGA);stoneRocks.add(Biomes.PLAINS);stoneRocks.add(Biomes.SUNFLOWER_PLAINS);stoneRocks.add(Biomes.OLD_GROWTH_BIRCH_FOREST);
+        stoneRocks.add(Biomes.OLD_GROWTH_PINE_TAIGA);stoneRocks.add(Biomes.OLD_GROWTH_SPRUCE_TAIGA);
     }
 
     private void addOptionalBiome(TagAppender<Biome> tagBuilder, String modId, String biomeName) {

@@ -1,56 +1,52 @@
 package net.thefirstwriter.substrata.worldgen;
 
-/*
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-import com.mojang.serialization.JsonOps;
+import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
+import net.minecraft.world.level.biome.OverworldBiomeBuilder;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.levelgen.*;
+import net.minecraft.world.level.levelgen.synth.NormalNoise;
+import net.thefirstwriter.substrata.worldgen.biome.surface.SubSSurfaceRules;
 
-import net.minecraftforge.fml.ModList;
-import org.apache.commons.io.IOUtils;
-
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.Optional;
-
-public class SubSNoiseSettings {
+public class SubSNoiseSettings{
     public static final ResourceKey<NoiseGeneratorSettings> OVERWORLD =
-            ResourceKey.create(Registries.NOISE_SETTINGS, new ResourceLocation("minecraft", "overworld"));
+            ResourceKey.create(Registries.NOISE_SETTINGS, ResourceLocation.withDefaultNamespace("overworld"));
 
-    public static void bootstrap(BootstapContext<NoiseGeneratorSettings> context) {
-        String fileName;
-        if (ModList.get().isLoaded("tectonic")) {
-            fileName = "substrata/worldgen/noise_settings/tectonic_overworld.json";}
-        else if (ModList.get().isLoaded("terralith")) {
-            fileName = "substrata/worldgen/noise_settings/terralith_overworld.json";}
-        else if (ModList.get().isLoaded("terratonic")) {
-                fileName = "substrata/worldgen/noise_settings/terratonic_overworld.json";}
-        else {
-            fileName = "substrata/worldgen/noise_settings/vanilla_overworld.json";}
-
-        try {
-            InputStream stream = SubSNoiseSettings.class.getClassLoader().getResourceAsStream(fileName);
-            if (stream == null) {
-                throw new RuntimeException("Could not find noise settings file: " + fileName);
-            }
-
-            JsonElement jsonElement = JsonParser.parseReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
-            IOUtils.closeQuietly(stream);
-
-            Optional<NoiseGeneratorSettings> optionalSettings = NoiseGeneratorSettings.DIRECT_CODEC.parse(JsonOps.INSTANCE, jsonElement).result();
-            if (optionalSettings.isEmpty()) {throw new RuntimeException("Failed to parse noise settings from " + fileName);}
-
-            NoiseGeneratorSettings settings = optionalSettings.get();
-            context.register(OVERWORLD, settings);
-
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to load custom noise settings from " + fileName, e);
+    public class NoiseRouterHelper extends NoiseRouterData {
+        public static NoiseRouter createOverworldRouter(HolderGetter<DensityFunction> densityFunctions, HolderGetter<NormalNoise.NoiseParameters> noises){
+            return overworld(densityFunctions,noises,false,false);
         }
     }
+
+    public static void bootstrap(BootstapContext<NoiseGeneratorSettings> context) {
+        HolderGetter<DensityFunction> densityFunctions = context.lookup(Registries.DENSITY_FUNCTION);
+        HolderGetter<NormalNoise.NoiseParameters> noises = context.lookup(Registries.NOISE);
+
+        NoiseSettings customNoiseParams = NoiseSettings.create(-128, 512, 1, 2);
+
+        SurfaceRules.RuleSource myCustomSurfaceRules = SubSSurfaceRules.getCustomSurfaceRules();
+
+        NoiseRouter customRouter = NoiseRouterHelper.createOverworldRouter(densityFunctions, noises);
+
+        // 4. Construct the final NoiseGeneratorSettings
+        NoiseGeneratorSettings customOverworld = new NoiseGeneratorSettings(
+                customNoiseParams,          // Replaces OVERWORLD_NOISE_SETTINGS
+                Blocks.STONE.defaultBlockState(), // defaultBlock
+                Blocks.WATER.defaultBlockState(), // defaultFluid
+                customRouter,               // noiseRouter
+                myCustomSurfaceRules,       // surfaceRule (YOUR CUSTOM RULE)
+                (new OverworldBiomeBuilder()).spawnTarget(), // spawnTarget
+                63,                         // seaLevel
+                false,                      // disableMobGeneration
+                false,                       // aquifersEnabled
+                true,                       // oreVeinsEnabled
+                false                       // legacyRandomSource (use false for vanilla noise)
+        );
+
+        context.register(OVERWORLD, customOverworld);
+    }
+
 }
-*/

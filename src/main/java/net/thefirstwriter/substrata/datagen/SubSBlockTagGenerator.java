@@ -22,7 +22,9 @@ public class SubSBlockTagGenerator extends BlockTagsProvider {
     protected void addTags(HolderLookup.@NotNull Provider pProvider) {
         this.tag(SubsTags.Blocks.ROOTED_CAVES_REPLACEABLE)
                 .addTag(BlockTags.BASE_STONE_OVERWORLD)
-                .add(Blocks.PACKED_MUD);
+                .add(Blocks.PACKED_MUD)
+                .add(Blocks.COARSE_DIRT)
+                .add(Blocks.DIRT);
 
     }
 }

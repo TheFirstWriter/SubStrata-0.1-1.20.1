@@ -1,2 +1,8 @@
-// 1.20.1	2026-06-15T18:18:31.2600818	Tags for minecraft:worldgen/biome mod id substrata
+// 1.20.1	2026-06-22T11:09:21.7392468	Tags for minecraft:worldgen/biome mod id substrata
+e8f48ba5e9f025853c67049213e57a6f54f79953 data/substrata/tags/worldgen/biome/is_andesite_rocks.json
+29d9bad007db1983beed741d008fb9e04c74ebf0 data/substrata/tags/worldgen/biome/is_calcite_rocks.json
+687eef7ba2dcdd1bf48705ef2e83b56b30c95d43 data/substrata/tags/worldgen/biome/is_diorite_rocks.json
+478aa78c1eec986e29819e0a2aacd179781e785d data/substrata/tags/worldgen/biome/is_granite_rocks.json
 2cc95eac7fd5e13b9372b75d464f93c089946791 data/substrata/tags/worldgen/biome/is_rooted_caves.json
+24f60382a9c0a4ef72a48b35f990f25e15ebf057 data/substrata/tags/worldgen/biome/is_stone_rocks.json
+e62f39c47937092c0c60552c74753a498a1c5216 data/substrata/tags/worldgen/biome/is_tuff_rocks.json

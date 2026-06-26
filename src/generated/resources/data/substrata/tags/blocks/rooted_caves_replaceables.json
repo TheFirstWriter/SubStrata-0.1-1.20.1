@@ -1,6 +1,8 @@
 {
   "values": [
     "#minecraft:base_stone_overworld",
-    "minecraft:packed_mud"
+    "minecraft:packed_mud",
+    "minecraft:coarse_dirt",
+    "minecraft:dirt"
   ]
 }
